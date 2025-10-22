@@ -145,22 +145,22 @@ onUnmounted(() => {
     font-size: 18px;
     color: #fff;
     .brand-logo {
-      font-family: 'Furore', 'Arial', sans-serif;
+      font-family: Furore, Arial, sans-serif;
       font-size: 28px;
       font-weight: bold;
-      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0, 217, 255, 50%);
       text-transform: lowercase;
+      letter-spacing: 2px;
       background: linear-gradient(
         135deg,
         #00d9ff 0%,
         #0084ff 50%,
         #00d9ff 100%
       );
+      filter: drop-shadow(0 0 10px rgba(0, 217, 255, 30%));
       background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-      filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.3));
       animation: brand-glow 3s ease-in-out infinite alternate;
+      -webkit-text-fill-color: transparent;
     }
     .message {
       display: flex;
@@ -178,10 +178,10 @@ onUnmounted(() => {
   }
   @keyframes brand-glow {
     0% {
-      filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.3));
+      filter: drop-shadow(0 0 10px rgba(0, 217, 255, 30%));
     }
     100% {
-      filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.6));
+      filter: drop-shadow(0 0 20px rgba(0, 217, 255, 60%));
     }
   }
   .header-right {
