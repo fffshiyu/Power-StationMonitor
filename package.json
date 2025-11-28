@@ -69,5 +69,8 @@
   },
   "resolutions": {
     "bin-wrapper": "npm:bin-wrapper-china"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-darwin-x64": "^4.53.3"
   }
 }
