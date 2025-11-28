@@ -1,5 +1,5 @@
 <template>
-  <LayoutPanel title="视频监控">
+  <LayoutPanel :title="t('panels.videoMonitor')">
     <div class="video-images">
       <!-- <video src="/images/camera.mp4" autoplay></video> -->
       <i class="fa-solid fa-video-slash"></i>
@@ -8,6 +8,9 @@
 </template>
 <script setup lang="ts">
 import LayoutPanel from './LayoutPanel.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>

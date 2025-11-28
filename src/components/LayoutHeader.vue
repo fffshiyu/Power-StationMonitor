@@ -1,14 +1,14 @@
 <template>
   <div class="layout-header">
     <div class="header-midden">
-      <div class="cn">电厂数字孪生服务平台</div>
-      <div class="en">Power plant digital twin service platform</div>
+      <div class="cn">{{ t('header.title') }}</div>
+      <div class="en">{{ t('header.titleEn') }}</div>
     </div>
     <div class="header-left">
-      <div class="brand-logo">Jennie</div>
+      <div class="brand-logo">{{ t('header.brandName') }}</div>
       <div
         class="message"
-        content="Jennie 数字孪生解决方案 | 基于Three.js打造的电厂智能监控平台，实现设备状态实时可视化、数据智能分析与预警服务"
+        :content="t('header.message')"
       ></div>
     </div>
     <div class="header-right">
@@ -20,24 +20,27 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 const currentTime = ref('')
 const currentDate = ref('')
 const currentWeek = ref('')
-const currentWeather = ref('13°C')
+const currentWeather = computed(() => t('header.weather'))
 
 let timer: number | null = null
 
-const weekDays = [
-  '星期日',
-  '星期一',
-  '星期二',
-  '星期三',
-  '星期四',
-  '星期五',
-  '星期六',
-]
+const weekDays = computed(() => [
+  t('weekdays.sunday'),
+  t('weekdays.monday'),
+  t('weekdays.tuesday'),
+  t('weekdays.wednesday'),
+  t('weekdays.thursday'),
+  t('weekdays.friday'),
+  t('weekdays.saturday'),
+])
 
 const updateDateTime = () => {
   const now = new Date()
@@ -55,7 +58,7 @@ const updateDateTime = () => {
   currentDate.value = `${year}-${month}-${day}`
 
   // 星期
-  currentWeek.value = weekDays[now.getDay()]
+  currentWeek.value = weekDays.value[now.getDay()]
 }
 
 onMounted(() => {

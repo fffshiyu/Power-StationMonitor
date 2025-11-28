@@ -1,5 +1,5 @@
 <template>
-  <LayoutPanel title="预警情况">
+  <LayoutPanel :title="t('panels.warningStatus')">
     <div class="wrap">
       <div class="item-list" ref="container">
         <div
@@ -13,7 +13,7 @@
           ></div>
 
           <div class="item-name">{{ name }}</div>
-          <div class="item-type">{{ event }}</div>
+          <div class="item-type">{{ t(event) }}</div>
           <div class="item-time">{{ time }}</div>
         </div>
       </div>
@@ -23,149 +23,152 @@
 <script setup lang="ts">
 import LayoutPanel from './LayoutPanel.vue'
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const list = ref<any[]>([
   {
-    name: '1#变压器传感器',
-    event: '失联',
+    name: '1# Transformer Sensor',
+    event: 'warning.disconnected',
     type: 1,
     time: '08:21',
   },
   {
-    name: '23#温湿度传感器',
-    event: '烟雾值',
+    name: '23# Temp/Humidity Sensor',
+    event: 'warning.smokeValue',
     type: 3,
     time: '08:32',
   },
   {
-    name: '9#红外被动探测器',
-    event: '失联',
+    name: '9# Infrared Detector',
+    event: 'warning.disconnected',
     type: 2,
     time: '09:44',
   },
   {
-    name: '2#风机房',
-    event: '检测到水流',
+    name: '2# Fan Room',
+    event: 'warning.waterDetected',
     type: 3,
     time: '12:53',
   },
   {
-    name: '18#巡更锚点',
-    event: '失联',
+    name: '18# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 3,
     time: '14:15',
   },
   {
-    name: '7#巡更锚点',
-    event: '失联',
+    name: '7# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 2,
     time: '14:45',
   },
   {
-    name: '26#红外被动探测器',
-    event: '检测到异常',
+    name: '26# Infrared Detector',
+    event: 'warning.abnormalDetected',
     type: 2,
     time: '14:59',
   },
   {
-    name: '3#风机房',
-    event: '风机卡住',
+    name: '3# Fan Room',
+    event: 'warning.fanStuck',
     type: 1,
     time: '16:42',
   },
   {
-    name: '6#变压器传感器',
-    event: '失联',
+    name: '6# Transformer Sensor',
+    event: 'warning.disconnected',
     type: 2,
     time: '17:43',
   },
   {
-    name: '1#变压器传感器',
-    event: '失联',
+    name: '1# Transformer Sensor',
+    event: 'warning.disconnected',
     type: 1,
     time: '08:21',
   },
   {
-    name: '23#温湿度传感器',
-    event: '烟雾值',
+    name: '23# Temp/Humidity Sensor',
+    event: 'warning.smokeValue',
     type: 3,
     time: '08:32',
   },
   {
-    name: '9#红外被动探测器',
-    event: '失联',
+    name: '9# Infrared Detector',
+    event: 'warning.disconnected',
     type: 2,
     time: '09:44',
   },
   {
-    name: '2#风机房',
-    event: '检测到水流',
+    name: '2# Fan Room',
+    event: 'warning.waterDetected',
     type: 3,
     time: '12:53',
   },
   {
-    name: '18#巡更锚点',
-    event: '失联',
+    name: '18# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 3,
     time: '14:15',
   },
   {
-    name: '7#巡更锚点',
-    event: '失联',
+    name: '7# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 2,
     time: '14:45',
   },
   {
-    name: '26#红外被动探测器',
-    event: '检测到异常',
+    name: '26# Infrared Detector',
+    event: 'warning.abnormalDetected',
     type: 2,
     time: '14:59',
   },
   {
-    name: '7#巡更锚点',
-    event: '失联',
+    name: '7# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 2,
     time: '14:45',
   },
   {
-    name: '26#红外被动探测器',
-    event: '检测到异常',
+    name: '26# Infrared Detector',
+    event: 'warning.abnormalDetected',
     type: 2,
     time: '14:59',
   },
   {
-    name: '7#巡更锚点',
-    event: '失联',
+    name: '7# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 2,
     time: '14:45',
   },
   {
-    name: '26#红外被动探测器',
-    event: '检测到异常',
+    name: '26# Infrared Detector',
+    event: 'warning.abnormalDetected',
     type: 2,
     time: '14:59',
   },
   {
-    name: '7#巡更锚点',
-    event: '失联',
+    name: '7# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 2,
     time: '14:45',
   },
   {
-    name: '26#红外被动探测器',
-    event: '检测到异常',
+    name: '26# Infrared Detector',
+    event: 'warning.abnormalDetected',
     type: 2,
     time: '14:59',
   },
   {
-    name: '7#巡更锚点',
-    event: '失联',
+    name: '7# Patrol Anchor',
+    event: 'warning.disconnected',
     type: 2,
     time: '14:45',
   },
   {
-    name: '26#红外被动探测器',
-    event: '检测到异常',
+    name: '26# Infrared Detector',
+    event: 'warning.abnormalDetected',
     type: 2,
     time: '14:59',
   },

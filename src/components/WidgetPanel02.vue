@@ -1,13 +1,16 @@
 <template>
-  <LayoutPanel title="主变电负荷电流变化">
+  <LayoutPanel :title="t('panels.transformerLoad')">
     <div class="container" ref="container"></div>
   </LayoutPanel>
 </template>
 <script setup lang="ts">
 import LayoutPanel from './LayoutPanel.vue'
-import { nextTick, onMounted } from 'vue'
+import { nextTick, onMounted, watch } from 'vue'
 import { sampleSize, range } from 'lodash'
 import useEcharts from '@/hooks/useEcharts'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 const { container, echarts, setOption } = useEcharts()
 
@@ -118,15 +121,26 @@ const generateOptions = (sources: any[][]) => {
   }
 }
 
+const sources = [
+  sampleSize(range(1000, 200), 7),
+  sampleSize(range(1000, 200), 7),
+  sampleSize(range(1000, 200), 7),
+]
+
+const updateChart = () => {
+  const options = generateOptions(sources)
+  setOption(options)
+}
+
 onMounted(() => {
   nextTick(() => {
-    const sources = [
-      sampleSize(range(1000, 200), 7),
-      sampleSize(range(1000, 200), 7),
-      sampleSize(range(1000, 200), 7),
-    ]
-    const options = generateOptions(sources)
-    setOption(options)
+    updateChart()
+  })
+})
+
+watch(locale, () => {
+  nextTick(() => {
+    updateChart()
   })
 })
 </script>

@@ -1,12 +1,15 @@
 <template>
-  <LayoutPanel title="系统损耗监测">
+  <LayoutPanel :title="t('panels.systemLoss')">
     <div class="container" ref="container"></div>
   </LayoutPanel>
 </template>
 <script setup lang="ts">
 import LayoutPanel from './LayoutPanel.vue'
-import { nextTick, onMounted } from 'vue'
+import { nextTick, onMounted, watch } from 'vue'
 import useEcharts from '@/hooks/useEcharts'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 const { container, echarts, setOption } = useEcharts()
 
@@ -75,10 +78,20 @@ const generateOptions = () => ({
   ],
 })
 
+const updateChart = () => {
+  const options = generateOptions()
+  setOption(options)
+}
+
 onMounted(() => {
   nextTick(() => {
-    const options = generateOptions()
-    setOption(options)
+    updateChart()
+  })
+})
+
+watch(locale, () => {
+  nextTick(() => {
+    updateChart()
   })
 })
 </script>

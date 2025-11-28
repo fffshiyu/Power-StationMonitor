@@ -1,14 +1,22 @@
 <template>
-  <LayoutPanel title="故障对比">
+  <LayoutPanel :title="t('panels.faultComparison')">
     <div class="container" ref="container"></div>
   </LayoutPanel>
 </template>
 <script setup lang="ts">
 import LayoutPanel from './LayoutPanel.vue'
-import { nextTick, onMounted } from 'vue'
+import { nextTick, onMounted, watch } from 'vue'
 import useEcharts from '@/hooks/useEcharts'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 const { container, echarts, setOption } = useEcharts()
+
+const updateChart = () => {
+  const options = generateOptions()
+  setOption(options)
+}
 
 const generateOptions = () => {
   return {
@@ -46,7 +54,7 @@ const generateOptions = () => {
         color: '#fff',
         margin: 10,
       },
-      data: ['08月', '09月', '10月', '11月', '12月'],
+      data: [t('chart.months.aug'), t('chart.months.sep'), t('chart.months.oct'), t('chart.months.nov'), t('chart.months.dec')],
     },
     yAxis: {
       type: 'value',
@@ -62,7 +70,7 @@ const generateOptions = () => {
     },
     series: [
       {
-        name: '2024年',
+        name: t('chart.year2024'),
         type: 'bar',
         emphasis: { focus: 'series' },
         data: [320, 332, 301, 334, 390],
@@ -76,7 +84,7 @@ const generateOptions = () => {
         },
       },
       {
-        name: '2025年',
+        name: t('chart.year2025'),
         type: 'bar',
         emphasis: { focus: 'series' },
         data: [220, 182, 191, 234, 290],
@@ -95,8 +103,13 @@ const generateOptions = () => {
 
 onMounted(() => {
   nextTick(() => {
-    const options = generateOptions()
-    setOption(options)
+    updateChart()
+  })
+})
+
+watch(locale, () => {
+  nextTick(() => {
+    updateChart()
   })
 })
 </script>

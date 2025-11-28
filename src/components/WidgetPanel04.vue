@@ -1,5 +1,5 @@
 <template>
-  <LayoutPanel title="设备规模">
+  <LayoutPanel :title="t('panels.equipmentScale')">
     <div class="weather-monitor">
       <div
         v-for="(item, index) in source"
@@ -7,10 +7,10 @@
         class="widget-weather-item"
       >
         <div class="weather-icon" :class="item.icon"></div>
-        <div class="weather-label">{{ item.label }}</div>
+        <div class="weather-label">{{ t(item.label) }}</div>
         <div class="weather-value">
           <span class="value">{{ item.value }}</span>
-          <span class="unit">{{ item.unit }}</span>
+          <span class="unit">{{ t(item.unit) }}</span>
         </div>
       </div>
     </div>
@@ -18,60 +18,64 @@
 </template>
 <script setup lang="ts">
 import LayoutPanel from './LayoutPanel.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 const source = [
   {
     icon: 'fa-solid fa-temperature-three-quarters',
-    label: '玻璃探测器',
+    label: 'equipment.glassDetector',
     value: '23',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-shower',
-    label: '风机房',
+    label: 'equipment.fanRoom',
     value: '23',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-fan',
-    label: '接地变110V',
+    label: 'equipment.groundingTransformer',
     value: '23',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-signs-post',
-    label: '巡更锚点',
+    label: 'equipment.patrolAnchor',
     value: '11',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-wind',
-    label: '高压探测器',
+    label: 'equipment.highVoltageDetector',
     value: '63',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-cloud-rain',
-    label: '红外探测器',
+    label: 'equipment.infraredDetector',
     value: '23',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-whiskey-glass',
-    label: '开关柜35KV',
+    label: 'equipment.switchCabinet',
     value: '12',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-water',
-    label: '烟感探测器',
+    label: 'equipment.smokeDetector',
     value: '12',
-    unit: '个',
+    unit: 'equipment.unit',
   },
   {
     icon: 'fa-solid fa-fill-drip',
-    label: '水浸探测室',
+    label: 'equipment.waterDetector',
     value: '13.2',
-    unit: '个',
+    unit: 'equipment.unit',
   },
 ]
 </script>
@@ -118,8 +122,11 @@ const source = [
     }
     .weather-label {
       margin-top: 10px;
-      font-size: 13px;
+      overflow: hidden;
+      font-size: 11px;
       color: #999;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .weather-value {
       margin-bottom: 6px;

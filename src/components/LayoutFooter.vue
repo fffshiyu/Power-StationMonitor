@@ -1,15 +1,18 @@
 <template>
   <div class="layout-footer">
     <div class="item" :style="warmingStyle" @click="warmingHandle">
-      {{ state.isWarming ? '取消告警' : '设备告警' }}
+      {{ state.isWarming ? t('footer.cancelWarning') : t('footer.equipmentWarning') }}
     </div>
     <div class="item" :style="inspectStyle" @click="inspectHandle">
-      {{ state.isInspect ? '取消巡检' : '漫游巡检' }}
+      {{ state.isInspect ? t('footer.cancelInspection') : t('footer.roamingInspection') }}
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { reactive, computed, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const state = reactive({
   isWarming: false,
@@ -93,8 +96,13 @@ const inspectStyle = computed(() => {
     justify-content: center;
     width: 170px;
     height: 50px;
+    padding: 0 10px;
+    overflow: hidden;
     font-family: Douyu;
+    font-size: 14px;
     color: #fff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     cursor: pointer;
     background-image: url('@/assets/footer_item_bg.png');
     background-repeat: no-repeat;

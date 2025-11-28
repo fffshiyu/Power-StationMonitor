@@ -1,7 +1,6 @@
 # ⚡️Power-StationMonitor
 
-> 在线预览
-> :https://fffshiyu.github.io/Power-StationMonitor
+> 在线预览 :https://fffshiyu.github.io/Power-StationMonitor
 
 ## 📸 项目预览
 

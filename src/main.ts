@@ -1,9 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import autofit from 'autofit.js'
+import i18n from './locales'
 
 const boostrap = async () => {
   const app = createApp(App)
+  app.use(i18n)
   app.mount('#app')
 
   const ScreenSize = {

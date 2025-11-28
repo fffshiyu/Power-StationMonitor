@@ -8,6 +8,8 @@ import {
   shallowRef,
   ref,
   reactive,
+  watch,
+  createApp,
 } from 'vue'
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 import TWEEN from 'three/examples/jsm/libs/tween.module.js'
@@ -15,6 +17,7 @@ import * as THREE from 'three'
 import { sample } from 'lodash'
 import useThree from './useThree'
 import WidgetLabel from '@/components/WidgetLabel.vue'
+import i18n from '@/locales'
 
 // 模型路径信息
 const Sources = {
@@ -27,74 +30,110 @@ const Sources = {
 const LabelPositions = [
   {
     name: '1# 550KV I线高抗',
+    translationKey: 'labels.highReactor',
+    index: 1,
     position: [-32, 8, -22],
   },
   {
     name: '2# 550KV I线高抗',
+    translationKey: 'labels.highReactor',
+    index: 2,
     position: [-20.2, 8, -22],
   },
   {
     name: '3# 550KV I线高抗',
+    translationKey: 'labels.highReactor',
+    index: 3,
     position: [-8.4, 8, -22],
   },
   {
     name: '4# 550KV I线高抗',
+    translationKey: 'labels.highReactor',
+    index: 4,
     position: [3.4, 8, -22],
   },
   {
     name: '5# 550KV I线高抗',
+    translationKey: 'labels.highReactor',
+    index: 5,
     position: [15.2, 8, -22],
   },
   {
     name: '6# 550KV I线高抗',
+    translationKey: 'labels.highReactor',
+    index: 6,
     position: [27, 8, -22],
   },
   {
     name: '1# 变压器',
+    translationKey: 'labels.transformer',
+    index: 1,
     position: [-32, 8, -6],
   },
   {
     name: '2# 变压器',
+    translationKey: 'labels.transformer',
+    index: 2,
     position: [-20.2, 8, -6],
   },
   {
     name: '3# 变压器',
+    translationKey: 'labels.transformer',
+    index: 3,
     position: [-8.4, 8, -6],
   },
   {
     name: '4# 变压器',
+    translationKey: 'labels.transformer',
+    index: 4,
     position: [3.4, 8, -6],
   },
   {
     name: '5# 变压器',
+    translationKey: 'labels.transformer',
+    index: 5,
     position: [15.2, 8, -6],
   },
   {
     name: '6# 变压器',
+    translationKey: 'labels.transformer',
+    index: 6,
     position: [27, 8, -6],
   },
   {
     name: '1# 隔离开关',
+    translationKey: 'labels.isolatingSwitch',
+    index: 1,
     position: [-33, 6, 14],
   },
   {
     name: '2# 隔离开关',
+    translationKey: 'labels.isolatingSwitch',
+    index: 2,
     position: [-21.2, 6, 14],
   },
   {
     name: '3# 隔离开关',
+    translationKey: 'labels.isolatingSwitch',
+    index: 3,
     position: [-9.4, 6, 14],
   },
   {
     name: '4# 隔离开关',
+    translationKey: 'labels.isolatingSwitch',
+    index: 4,
     position: [2.4, 6, 14],
   },
   {
     name: '5# 隔离开关',
+    translationKey: 'labels.isolatingSwitch',
+    index: 5,
     position: [14.2, 6, 14],
   },
   {
     name: '6# 隔离开关',
+    translationKey: 'labels.isolatingSwitch',
+    index: 6,
     position: [26, 6, 14],
   },
 ]
@@ -119,6 +158,7 @@ export function useStation() {
   const devices = shallowRef([])
   const warmingTimer = ref()
   const warmingCurrent = shallowRef()
+  const labelObjects = ref<CSS2DObject[]>([])
 
   //加载模型
   const loadModel = async () => {
@@ -161,22 +201,35 @@ export function useStation() {
   }
   //添加设备名称标识
   const addDeviceLabels = () => {
+    // 清除旧标签
+    labelObjects.value.forEach((label) => {
+      scene.value.remove(label)
+      if (label.element) {
+        label.element.remove()
+      }
+    })
+    labelObjects.value = []
+
     const cRender = (component: any, props: any) => {
-      const newComponent = defineComponent({
-        render() {
-          return h(component, props)
-        },
-      })
-      const instance = createVNode(newComponent)
-      render(instance, document.createElement('div'))
-      return instance.el
+      const container = document.createElement('div')
+      const app = createApp(component, props)
+      app.use(i18n)
+      app.mount(container)
+      return container.firstElementChild as HTMLElement
     }
+    
     LabelPositions.forEach((item) => {
       const label = new CSS2DObject(cRender(WidgetLabel, item))
       label.position.set(...item.position)
       scene.value.add(label)
+      labelObjects.value.push(label)
     })
   }
+  
+  // 监听语言切换
+  watch(() => i18n.global.locale.value, () => {
+    addDeviceLabels()
+  })
 
   //摄像头移动效果
   const cameraAnimation = (

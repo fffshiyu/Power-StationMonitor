@@ -2,11 +2,15 @@
   <div class="layout-loading" v-show="loading.isLoading">
     <div class="loading-gif"></div>
     <div class="loading-tip">
-      模型正在加载中 ({{ loading.loaded }}/{{ loading.total }}) ...
+      {{ t('loading.text') }} ({{ loading.loaded }}/{{ loading.total }}) ...
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 interface PropsType {
   loading: {
     total: number // 全部
